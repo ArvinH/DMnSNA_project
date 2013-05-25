@@ -4,7 +4,9 @@ import java.util.*;
 import javax.xml.parsers.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
-
+/** 
+* @author ArvinH
+*/
 public class Parser {
    
    private final int maxAuthorsPerPaper = 200;
@@ -16,10 +18,12 @@ public class Parser {
         private String Value;
         private String key;
         private String recordTag;
+        private String publishDomain;
         private Person[] persons= new Person[maxAuthorsPerPaper];
         private int numberOfPersons = 0;
 
         private boolean insidePerson;
+        private boolean insideDomain;
 
         public void setDocumentLocator(Locator locator) {
             this.locator = locator;
@@ -39,6 +43,9 @@ public class Parser {
                 key = k;
                 recordTag = rawName;   
             }
+            if (insideDomain = (rawName.equals("crossref") || rawName.equals("journal"))) {
+            	publishDomain = "";
+            }
         }
 
         public void endElement(String namespaceURI, String localName,
@@ -54,6 +61,7 @@ public class Parser {
                     persons[numberOfPersons++] = p;
                 return;
             }
+			
             if (rawName.equals(recordTag)) {
                 if (numberOfPersons == 0)
                     return;
@@ -62,7 +70,7 @@ public class Parser {
                     pa[i] = persons[i];
                     persons[i] = null;
                 }
-                Publication p = new Publication(key,pa);
+                Publication p = new Publication(key,pa, publishDomain);
                 numberOfPersons = 0;
             }
         }
@@ -71,6 +79,9 @@ public class Parser {
                 throws SAXException {
             if (insidePerson)
                 Value += new String(ch, start, length);
+            else if (insideDomain){
+            	publishDomain += new String(ch, start, length);
+            }
         }
 
         private void Message(String mode, SAXParseException exception) {
@@ -168,8 +179,9 @@ public class Parser {
               			 Publication.getMaxNumberOfAuthors());   
       //publicationCountStatistics();
       Person.enterPublications();
-      Person.printCoauthorTable();
-      Person.findCoauthorNames();
+      //Person.printCoauthorTable();
+      //Person.findCoauthorNames();
+      Person.findPersonDomain();
       //Person.printNamePartTable();
       //Person.findSimilarNames();
    }

@@ -7,6 +7,7 @@ import java.util.*;
 
 /**
  * @author ley
+ * @author ArvinH
  */
 public class Person {
     private static int maxPublCount = 0;
@@ -20,7 +21,7 @@ public class Person {
     private int tmp;  //record how many publication that the author publish
     private Publication[] publs;
     private Person[] coauthors;
-
+    private Map<String, Integer> domainMap = new HashMap<String, Integer>();
     public Person(String n) {
         name = n;
         count = 0;
@@ -102,6 +103,12 @@ public class Person {
                     pers.tmp = 0;
                 }
                 pers.publs[pers.tmp++] = publ;
+                if(pers.domainMap.containsKey(publ.getDomain())){
+                	pers.domainMap.put(publ.getDomain(),pers.domainMap.get(publ.getDomain())+1);
+                }
+                else{
+                	pers.domainMap.put(publ.getDomain(), 0);
+                }
             }
         }
         
@@ -121,7 +128,7 @@ public class Person {
                     for (int j=0; j<authors.length; j++) {
                         if (authors[j] == null)
                             continue;
-                        if (authors[j] == pers)
+                        if (authors[j] == pers) 
                             continue;
                         tmpSet.add(authors[j]);
                     }
@@ -231,7 +238,41 @@ public class Person {
 			
 		}
     }
-    static public void findPublications(){
-    	
+    static public void findPersonDomain(){
+    	Iterator it = Person.iterator();
+    	Person pers;
+    	FileWriter fw = null;
+    	PrintWriter pw = null;
+    	String key = null;
+		try {
+			fw = new FileWriter("parserResult/authorDomin.csv");
+		 	pw = new PrintWriter(fw);
+	    	pw.println("Authors' Domain");
+	    	while (it.hasNext()){
+	    		pers = (Person) it.next();
+	    		System.out.println(pers.name + " 's Domain are: ");
+	    		pw.println(pers.name + " 's Domain are: ");
+	    		Collection collection = pers.domainMap.keySet();
+	    		Iterator domainit = collection.iterator();
+	    		while(domainit.hasNext()){
+	    			key = (String)domainit.next();
+	    			System.out.print((domainit.hasNext())?key+",":key+"");
+	    			//pw.print((domainit.hasNext())?key+",":key+"");
+	    			pw.print(key+",");
+	    		}
+	    		pw.println();
+	    		System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+	    	}
+	    	
+	    	
+	    	pw.close();
+			fw.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			
+		}
     }
 }
