@@ -214,11 +214,17 @@ public class Person {
 			fw = new FileWriter("parserResult/parser_result.csv");
 		 	pw = new PrintWriter(fw);
 	    	System.out.println("Person and their Coauthors");
-	    	pw.println("Person and their Coauthors");
+	    	//pw.println("Person and their Coauthors");
 	    	while (it.hasNext()){
 	    		pers = (Person) it.next();
 	    		System.out.println(pers.name + " 's Co-authors are: ");
-	    		pw.println(pers.name + " 's Co-authors are: ");
+	    		//pw.println(pers.name + " 's Co-authors are: ");
+	    		if(pers.coauthors.length != 0){
+	    			pw.print(pers.name+",");
+	    		}
+	    		else{
+	    			pw.print(pers.name+",");	
+	    		}
 	    		for (int i=0; i< pers.coauthors.length; i++){
 	    			System.out.println(pers.coauthors[i].name);
 	    			pw.print(pers.coauthors[i].name);
@@ -247,18 +253,19 @@ public class Person {
 		try {
 			fw = new FileWriter("parserResult/authorDomin.csv");
 		 	pw = new PrintWriter(fw);
-	    	pw.println("Authors' Domain");
+		 	//pw.println("Authors' Domain");
 	    	while (it.hasNext()){
 	    		pers = (Person) it.next();
 	    		System.out.println(pers.name + " 's Domain are: ");
-	    		pw.println(pers.name + " 's Domain are: ");
+	    		//pw.println(pers.name + " 's Domain are: ");
+	    		pw.print(pers.name+",");
 	    		Collection collection = pers.domainMap.keySet();
 	    		Iterator domainit = collection.iterator();
 	    		while(domainit.hasNext()){
 	    			key = (String)domainit.next();
 	    			System.out.print((domainit.hasNext())?key+",":key+"");
-	    			//pw.print((domainit.hasNext())?key+",":key+"");
-	    			pw.print(key+",");
+	    			pw.print((domainit.hasNext())?key+",":key+"");
+	    			//pw.print(key+",");
 	    		}
 	    		pw.println();
 	    		System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxx");

@@ -180,7 +180,7 @@ public class Parser {
       //publicationCountStatistics();
       Person.enterPublications();
       //Person.printCoauthorTable();
-      //Person.findCoauthorNames();
+      Person.findCoauthorNames();
       Person.findPersonDomain();
       //Person.printNamePartTable();
       //Person.findSimilarNames();
