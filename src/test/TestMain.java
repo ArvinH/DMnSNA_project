@@ -3,7 +3,9 @@ package test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,12 +18,16 @@ public class TestMain {
 	/**
 	 * @author ArvinH
 	 */
+	private static SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
 			BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("Who are you? ");
 			String TheGuy = buf.readLine();
+			// record the time
+			long start = System.currentTimeMillis( );
+			
 			System.out.println("So...you are " + TheGuy);
 			System.out.println("The person you should and you could know is..");
 			// read the parser_result.csv to get the co-author map about TheGuy 
@@ -40,6 +46,7 @@ public class TestMain {
     		Iterator iter = collection.iterator();
     		EdgeRank edgeRank = new EdgeRank();
     		double ac_weight = 0.0;
+    		double ab_weight = 0.0;
     		double bc_weight = 0.0;
     		double temp_weight = 0.0;
     		TreeMap<Double, String> max_temp_weight = new TreeMap<Double, String>(); 
@@ -47,31 +54,31 @@ public class TestMain {
     		while(iter.hasNext()){
     			temp = (String) iter.next();		// temp is current co-author
     			cc_author_cc = cc_author.get(temp); // cc_author_cc is current co-author's co-author arrays
-    			/*System.out.println(temp);
-    			for(int j = 1; j < cc_author_cc.length; j++){
-    				System.out.print((cc_author_cc.length == j+1)? cc_author_cc[j]+"": cc_author_cc[j]+",");
-    			}*/
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.domainRanking(TheGuy, temp);
     			
     			for(int j = 1; j < cc_author_cc.length; j++){
     				bc_weight = edgeRank.interRanking(temp, cc_author_cc[j]);
-    				// Algorithm??
-    				temp_weight = ac_weight/bc_weight;
+    				ab_weight = edgeRank.interRanking(TheGuy, cc_author_cc[j]);
+    				// Algorithm
+    				temp_weight = ac_weight/(bc_weight+ab_weight);
     				max_temp_weight.put(temp_weight, cc_author_cc[j]);
     			}
     			// find max value in temp_weight and add ac_weight, then put into final_weight map( record the person b and it weight)
     			final_weight.put(max_temp_weight.firstKey()+ac_weight, max_temp_weight.get(max_temp_weight.firstKey()));
     		}
+    		long end = System.currentTimeMillis( );
+    		
+			
     		System.out.println("hightest weight is: "+final_weight.firstKey());
     		System.out.println("and the person is ... "+final_weight.get(final_weight.firstKey()));
-    		
+    		long diff = end - start;
+    		System.out.println("run time : "+diff/1000);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-
 
 }
