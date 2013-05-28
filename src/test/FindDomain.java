@@ -3,7 +3,11 @@ package test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+/**
+ * 
+ * @author Arvin
+ *
+ */
 public class FindDomain {
 	
 	private String personName;

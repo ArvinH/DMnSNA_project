@@ -59,7 +59,7 @@ public class EdgeRank {
 				else {	
 					if(A_domain[index_a].equals(B_domain[index_b])){
 						domainWeight++;
-						System.out.print("A not conf:"+ A_domain[index_a]);
+						//System.out.print("A not conf:"+ A_domain[index_a]);
 					}
 				}
 			}
@@ -89,9 +89,11 @@ public class EdgeRank {
 			ListAco.remove(0);
 			ListBco.remove(0);
 			ListAco.retainAll(ListBco);
+			/*
 			for(int i = 0; i < ListAco.size(); i++){
 				System.out.println(ListAco.get(i).toString());
 			}
+			*/
 			interWeight = ListAco.size();
 		return interWeight;
 	}

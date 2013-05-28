@@ -40,10 +40,10 @@ public class TestMain {
     		Iterator iter = collection.iterator();
     		EdgeRank edgeRank = new EdgeRank();
     		double ac_weight = 0.0;
-    		double ab_weight = 0.0;
     		double bc_weight = 0.0;
-    		double[] temp_weight = null;
-    		Map<String, Double> final_weight = new TreeMap<String, Double>();
+    		double temp_weight = 0.0;
+    		TreeMap<Double, String> max_temp_weight = new TreeMap<Double, String>(); 
+    		TreeMap<Double, String> final_weight = new TreeMap<Double, String>();
     		while(iter.hasNext()){
     			temp = (String) iter.next();		// temp is current co-author
     			cc_author_cc = cc_author.get(temp); // cc_author_cc is current co-author's co-author arrays
@@ -54,16 +54,17 @@ public class TestMain {
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.domainRanking(TheGuy, temp);
     			
-    			for(int j = 1, weight_count = 0; j < cc_author_cc.length; j++, weight_count++){
+    			for(int j = 1; j < cc_author_cc.length; j++){
     				bc_weight = edgeRank.interRanking(temp, cc_author_cc[j]);
     				// Algorithm??
-    				temp_weight[j] = ac_weight/bc_weight;
+    				temp_weight = ac_weight/bc_weight;
+    				max_temp_weight.put(temp_weight, cc_author_cc[j]);
     			}
     			// find max value in temp_weight and add ac_weight, then put into final_weight map( record the person b and it weight)
-    			
-    			
-    			System.out.println();
+    			final_weight.put(max_temp_weight.firstKey()+ac_weight, max_temp_weight.get(max_temp_weight.firstKey()));
     		}
+    		System.out.println("hightest weight is: "+final_weight.firstKey());
+    		System.out.println("and the person is ... "+final_weight.get(final_weight.firstKey()));
     		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
