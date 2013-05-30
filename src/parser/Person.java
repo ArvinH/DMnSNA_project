@@ -103,6 +103,7 @@ public class Person {
                     pers.tmp = 0;
                 }
                 pers.publs[pers.tmp++] = publ;
+                // check if domain is already in domainMap or not
                 if(pers.domainMap.containsKey(publ.getDomain())){
                 	pers.domainMap.put(publ.getDomain(),pers.domainMap.get(publ.getDomain())+1);
                 }
@@ -130,6 +131,7 @@ public class Person {
                             continue;
                         if (authors[j] == pers) 
                             continue;
+                     // 
                         tmpSet.add(authors[j]);
                     }
                 }

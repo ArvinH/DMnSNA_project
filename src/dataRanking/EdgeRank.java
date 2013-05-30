@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import test.FindCoauthor;
+import test.DataFind;
 import test.FindDomain;
 /**
  * 
@@ -31,10 +31,11 @@ public class EdgeRank {
 	 * @return
 	 * weight of the edge between A and B, according to their common domain
 	 */
-	public double domainRanking(String A, String B){
-		FindDomain findDomain = new FindDomain();
-		String[] A_domain = findDomain.find(A);
-		String[] B_domain = findDomain.find(B);
+	public double domainRanking(HashMap<String, String[]> domainResult, String A, String B){
+		//FindDomain findDomain = new FindDomain();
+		DataFind findDomain = new DataFind();
+		String[] A_domain = findDomain.findDomain(domainResult, A);
+		String[] B_domain = findDomain.findDomain(domainResult, B);
 		Map<String, Integer> commonDomain = new HashMap<String, Integer>();
 		int index_a, index_b;
 		for( index_a = 1; index_a < A_domain.length; index_a++){
@@ -78,10 +79,11 @@ public class EdgeRank {
 	 *  weighting between person A and person B, according to their number of common co-author set and
 	 *  domain weighting between common co-author betewwen A/B
 	 */
-	public double interRanking(String A, String B){
-			FindCoauthor findC = new FindCoauthor();
-			String[] A_co = findC.find(A);
-			String[] B_co = findC.find(B);
+	public double interRanking(HashMap<String, String[]> coauthorResult, String A, String B){
+			//FindCoauthor findC = new FindCoauthor();
+			DataFind findC = new DataFind();
+			String[] A_co = findC.findCoauthor(coauthorResult, A);
+			String[] B_co = findC.findCoauthor(coauthorResult, B);
 			// initial a linked list to get the set of A_co and B_co, should use Arrays.asList() to initial the LinkedList
 			// cauz' Array.asList() will return an fixed list which can't remove or add or something operation..
 			List<String> ListAco = new LinkedList<String>(Arrays.asList(A_co));
@@ -98,12 +100,6 @@ public class EdgeRank {
 		return interWeight;
 	}
 	
-	public static void main(String[] args){
-		EdgeRank edgerank = new EdgeRank();
-		//double weight = edgerank.domainRanking("Philip E. London", "Martin S. Feather");
-		double weight = edgerank.interRanking("Philip E. London", "Martin S. Feather");
-		System.out.print("Weight of two nodes is :"+weight);
-		
-	}	
+	
 
 }

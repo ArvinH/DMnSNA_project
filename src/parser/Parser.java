@@ -35,7 +35,7 @@ public class Parser {
             
             if (insidePerson = (rawName.equals("author") || rawName
                     .equals("editor"))) {
-                //if startelement is editor or author, then clear value string to store new name
+                //if start element is editor or author, then clear value string to store new name
             	Value = "";
                 return;
             }
