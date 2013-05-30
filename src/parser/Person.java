@@ -20,7 +20,7 @@ public class Person {
     private int count;
     private int tmp;  //record how many publication that the author publish
     private Publication[] publs;
-    private Person[] coauthors;
+    private HashMap<Person,Integer> coauthors = new HashMap<Person, Integer>();
     private Map<String, Integer> domainMap = new HashMap<String, Integer>();
     public Person(String n) {
         name = n;
@@ -50,10 +50,10 @@ public class Person {
     }
     
     public int getNumberOfCoauthors() {
-        return (coauthors == null) ? 0 : coauthors.length;
+        return (coauthors == null) ? 0 : coauthors.size();
     }
     
-    public Person[] getCoauthors() {
+    public HashMap<Person, Integer> getCoauthors() {
         return coauthors;
     }
     
@@ -86,7 +86,7 @@ public class Person {
         Publication publ;
         Person[] persArray;
         Person pers;
-        
+        Person key;
         while (publIt.hasNext()) {
             publ = (Publication) publIt.next();
             persArray = publ.getAuthors();
@@ -114,7 +114,9 @@ public class Person {
         }
         
         Iterator persIt = Person.iterator();
-        
+        Boolean flag = false;
+        Collection collection = null;
+        Iterator iter = null;
         while (persIt.hasNext()) {
             pers = (Person)persIt.next();
             Person authors[];
@@ -132,11 +134,27 @@ public class Person {
                         if (authors[j] == pers) 
                             continue;
                      // 
-                        tmpSet.add(authors[j]);
+                        collection = pers.coauthors.keySet();
+                        iter = collection.iterator();
+                        
+                        while(iter.hasNext()){
+                        	key = (Person) iter.next();
+                        	if (key.name.equals(authors[j].name)){
+                            	pers.coauthors.put(authors[j], pers.coauthors.get(authors[j])+1);
+                            	flag = true;
+                            	break;
+                            }
+                            else{
+                            flag = false;
+                            }
+                        }
+                        if ( !flag ){
+                        	pers.coauthors.put(authors[j], 1);
+                        }
                     }
                 }
             }
-            pers.coauthors = tmpSet.toArray(new Person[tmpSet.size()]);
+            flag = false;
         }
     }
     
@@ -188,7 +206,7 @@ public class Person {
             System.out.print(n + ":" + numberOfParts[n] + " ");
         System.out.println(">=10:" + numberOfParts[10]);
     }
-    
+   /* 
     static public void findSimilarNames() {
         Iterator it = Person.iterator();
         Person pers;
@@ -207,32 +225,41 @@ public class Person {
             }
         }
     }
+    */
     static public void findCoauthorNames(){
     	Iterator it = Person.iterator();
     	Person pers;
     	FileWriter fw = null;
     	PrintWriter pw = null;
+    	Person key = null;
 		try {
-			fw = new FileWriter("parserResult/parser_result.csv");
+			fw = new FileWriter("parserResult/parser_result2.csv");
 		 	pw = new PrintWriter(fw);
 	    	System.out.println("Person and their Coauthors");
 	    	//pw.println("Person and their Coauthors");
 	    	while (it.hasNext()){
 	    		pers = (Person) it.next();
-	    		System.out.println(pers.name + " 's Co-authors are: ");
+	    		//System.out.println(pers.name + " 's Co-authors are: ");
 	    		//pw.println(pers.name + " 's Co-authors are: ");
-	    		if(pers.coauthors.length != 0){
+	    		if(pers.coauthors.size() != 0){
 	    			pw.print(pers.name+",");
 	    		}
 	    		else{
-	    			pw.print(pers.name+",");	
-	    		}
+	    			pw.print(pers.name);	
+	    		}/*
 	    		for (int i=0; i< pers.coauthors.length; i++){
 	    			System.out.println(pers.coauthors[i].name);
 	    			pw.print(pers.coauthors[i].name);
 	    			pw.print((i==pers.coauthors.length-1)?"":",");
 	    		}
-	    		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+	    		*/
+	    		Collection collection = pers.coauthors.keySet();
+	    		Iterator iter = collection.iterator();
+	    		while(iter.hasNext()){
+	    			key = (Person) iter.next();
+	    			pw.print((iter.hasNext())?key.name+"["+pers.coauthors.get(key)+"]"+",":key.name+"["+pers.coauthors.get(key)+"]"+"");
+	    		}
+	    		//System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	    		pw.println();
 	    	}
 	    	
