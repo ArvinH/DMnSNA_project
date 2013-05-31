@@ -62,7 +62,7 @@ public class TestMain {
     			cc_author_cc = cc_author.get(temp); // cc_author_cc is current co-author's co-author arrays
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.domainRanking(DomainSet, TheGuy, temp);
-    			
+    			//System.out.println("temp:"+temp+"--ac_weight"+ac_weight);
     			for(int j = 1; j < cc_author_cc.length; j++){
     				bc_weight = edgeRank.interRanking(CoauthorSet, temp, cc_author_cc[j]);
     				ab_weight = edgeRank.interRanking(CoauthorSet, TheGuy, cc_author_cc[j]);

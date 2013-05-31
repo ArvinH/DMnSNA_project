@@ -21,7 +21,7 @@ public class DataLoad {
 		
 		try{
 		@SuppressWarnings("resource")
-		BufferedReader csvFile = new BufferedReader(new FileReader("parserResult/parser_result.csv"));
+		BufferedReader csvFile = new BufferedReader(new FileReader("parserResult/parser_result2.csv"));
 		String[] dataArray;
 		String target;
 		while((target = csvFile.readLine())!= null){
@@ -37,7 +37,7 @@ public class DataLoad {
 		
 		try{
 		@SuppressWarnings("resource")
-		BufferedReader csvFile = new BufferedReader(new FileReader("parserResult/authorDomain.csv"));
+		BufferedReader csvFile = new BufferedReader(new FileReader("parserResult/authorDomin.csv"));
 		String[] dataArray;
 		String target;
 		while((target = csvFile.readLine())!= null){

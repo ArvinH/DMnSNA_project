@@ -257,7 +257,7 @@ public class Person {
 	    		Iterator iter = collection.iterator();
 	    		while(iter.hasNext()){
 	    			key = (Person) iter.next();
-	    			pw.print((iter.hasNext())?key.name+"["+pers.coauthors.get(key)+"]"+",":key.name+"["+pers.coauthors.get(key)+"]"+"");
+	    			pw.print((iter.hasNext())?key.name+":"+pers.coauthors.get(key)+":"+",":key.name+":"+pers.coauthors.get(key)+":");
 	    		}
 	    		//System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	    		pw.println();

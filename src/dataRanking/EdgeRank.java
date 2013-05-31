@@ -17,7 +17,7 @@ public class EdgeRank {
 	
 	private double domainWeight = 0.0;
 	private double interWeight = 0.0;
-	
+	private double friendshipWeight = 0.0;
 	public EdgeRank(){
 		
 	}
@@ -99,7 +99,26 @@ public class EdgeRank {
 			interWeight = ListAco.size();
 		return interWeight;
 	}
-	
+	/**
+	 * 
+	 * @param coauthorResult
+	 * @param A
+	 * @param B
+	 * @return
+	 * weighting of person A and person B's friendship, according to their co-edit publications
+	 */
+	public double friendshipRanking(HashMap<String, String[]> coauthorResult, String A, String B){
+		DataFind findC = new DataFind();
+		String[] A_co = findC.findFriendship(coauthorResult, A);
+		String[] temp = null;
+		for(int j = 0; j < A_co.length; j++){
+			if(A_co[j].contains(B)){
+				temp = A_co[j].split(":");
+				friendshipWeight = Double.parseDouble(temp[1]);
+			}
+		}
+		return friendshipWeight;
+	}
 	
 
 }
