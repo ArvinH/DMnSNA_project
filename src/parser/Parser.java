@@ -181,7 +181,7 @@ public class Parser {
       Person.enterPublications();
       //Person.printCoauthorTable();
       Person.findCoauthorNames();
-     // Person.findPersonDomain();
+      Person.findPersonDomain();
       //Person.printNamePartTable();
       //Person.findSimilarNames();
    }

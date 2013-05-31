@@ -280,7 +280,7 @@ public class Person {
     	PrintWriter pw = null;
     	String key = null;
 		try {
-			fw = new FileWriter("parserResult/authorDomin.csv");
+			fw = new FileWriter("parserResult/authorDomain.csv");
 		 	pw = new PrintWriter(fw);
 		 	//pw.println("Authors' Domain");
 	    	while (it.hasNext()){
