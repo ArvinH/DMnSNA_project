@@ -18,6 +18,7 @@ public class EdgeRank {
 	private double domainWeight = 0.0;
 	private double interWeight = 0.0;
 	private double friendshipWeight = 0.0;
+	private double smallWorldExtend = 0.0;
 	public EdgeRank(){
 		
 	}
@@ -119,6 +120,12 @@ public class EdgeRank {
 		}
 		return friendshipWeight;
 	}
-	
+	public double smallWorldExtend(List<String> A, List<String> B){
+			double tempB = B.size();
+			B.retainAll(A);
+			double BinterA = B.size();
+			smallWorldExtend = tempB - BinterA;
+		return smallWorldExtend;
+	}
 
 }

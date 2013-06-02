@@ -1,13 +1,21 @@
 package test;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import loadData.DataLoad;
@@ -48,44 +56,91 @@ public class TestMain {
 				cc_author.put(co_author[i],fc.findCoauthor(CoauthorSet,co_author[i]));
 			}
 			// list all co-authors' co-authors
-			Collection collection = cc_author.keySet();
-    		Iterator iter = collection.iterator();
+			Collection<String> collection = cc_author.keySet();
+    		Iterator<String> iter = collection.iterator();
     		EdgeRank edgeRank = new EdgeRank();
     		double ac_weight = 0.0;
     		double ab_weight = 0.0;
     		double bc_weight = 0.0;
+    		double ab_domainWeight = 0.0;
     		double temp_weight = 0.0;
+    		int rank = 0;
     		TreeMap<Double, String> max_temp_weight = new TreeMap<Double, String>(); 
     		TreeMap<Double, String> final_weight = new TreeMap<Double, String>();
+    		//ArrayList or LinkedList?
+    		List<String> A_Co_Co = new ArrayList<String>();
+    		List<String> B_Co = new ArrayList<String>();
+    		List<String> A_Temp_CoCo = new ArrayList<String>();
+    		TreeMap<Double, Double> B_Extend = new TreeMap<Double, Double>();
+    		String[] b_co = null;
+    		FileWriter fw = new FileWriter("parserResult/smallExResult.csv");
+		 	PrintWriter pw = new PrintWriter(fw);
     		while(iter.hasNext()){
-    			temp = (String) iter.next();		// temp is current co-author
+    			temp = iter.next();		// temp is current co-author
     			cc_author_cc = cc_author.get(temp); // cc_author_cc is current co-author's co-author arrays
+    			A_Temp_CoCo.addAll(Arrays.asList(cc_author_cc));
+    			A_Co_Co.addAll(A_Temp_CoCo);
     			// operate A->C weight and C->B weight
-    			ac_weight = edgeRank.domainRanking(DomainSet, TheGuy, temp);
+    			ac_weight = edgeRank.friendshipRanking(CoauthorSet,TheGuy, temp);
     			//System.out.println("temp:"+temp+"--ac_weight"+ac_weight);
     			for(int j = 1; j < cc_author_cc.length; j++){
     				bc_weight = edgeRank.interRanking(CoauthorSet, temp, cc_author_cc[j]);
     				ab_weight = edgeRank.interRanking(CoauthorSet, TheGuy, cc_author_cc[j]);
+    				ab_domainWeight = edgeRank.domainRanking(DomainSet, TheGuy, cc_author_cc[j]);
     				// Algorithm
-    				temp_weight = ac_weight/(bc_weight+ab_weight);
-    				// need to check if there is same cc_author and co_author
-    				if(!cc_author.keySet().contains(cc_author_cc[j])){
-    				max_temp_weight.put(temp_weight, cc_author_cc[j]);
+    				b_co = fc.findCoauthor(CoauthorSet, cc_author_cc[j]);
+    				B_Co.clear();
+    	    		B_Co.addAll(Arrays.asList(b_co));
+    	    		B_Co.remove(0);
+    	    		double smallWorldExtend = edgeRank.smallWorldExtend(A_Co_Co, B_Co);
+    	    		
+    				if(ab_domainWeight >= 1){
+	    				temp_weight = ac_weight*bc_weight*smallWorldExtend;
+	    				// need to check if there is same cc_author and co_author
+	    			//	System.out.println("small: "+smallWorldExtend+", temp:"+temp_weight);
+	    				pw.println(smallWorldExtend+","+temp_weight);
+	    				B_Extend.put(smallWorldExtend, temp_weight);
+	    				if(!cc_author.keySet().contains(cc_author_cc[j])){
+	    					//what if the same temp_weight? just override?
+	    				max_temp_weight.put(temp_weight, cc_author_cc[j]);
+	    				}
     				}
     			}
     			// find max value in temp_weight and add ac_weight, then put into final_weight map( record the person b and it weight)
-    			final_weight.put(max_temp_weight.firstKey()+ac_weight, max_temp_weight.get(max_temp_weight.firstKey()));
+    			final_weight.put(max_temp_weight.lastKey(), max_temp_weight.get(max_temp_weight.lastKey()));
+    			
     		}
+    		/*Find the rank
+			Collection<Double> B_Ex_collection = B_Extend.keySet();
+			Iterator<Double> B_E_itr = B_Ex_collection.iterator();
+			double tempB_E_itr =0.0;
+			while(B_E_itr.hasNext()){
+				rank++;
+				tempB_E_itr = B_E_itr.next();
+				System.out.println("B_E_itr: "+ B_Extend.get(tempB_E_itr)+", "+final_weight.lastKey());
+				if(B_Extend.get(tempB_E_itr).compareTo(final_weight.lastKey()) == 0){
+					rank = B_Extend.size() - rank;
+					System.out.println(rank);
+					break;
+				}
+			}
+			*/
     		long end = System.currentTimeMillis( );
     		
 			
-    		System.out.println("hightest weight is: "+final_weight.firstKey());
-    		System.out.println("and the person is ... "+final_weight.get(final_weight.firstKey()));
-    		
-    		
+    		System.out.println("hightest weight is: "+final_weight.lastKey());
+    		System.out.println("and the person is ... "+final_weight.get(final_weight.lastKey()));
+    		b_co = fc.findCoauthor(CoauthorSet, final_weight.get(final_weight.lastKey()));
+    		B_Co.clear();
+    		B_Co.addAll(Arrays.asList(b_co));
+    		B_Co.remove(0);
+    		double smallWorldExtend = edgeRank.smallWorldExtend(A_Co_Co, B_Co);
+    		System.out.println("The small world extends: "+smallWorldExtend);
+    		System.out.println("And it is number: "+rank);
     		
     		long diff = end - start;
     		System.out.println("run time : "+diff/1000);
+    		pw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
