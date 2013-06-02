@@ -15,7 +15,11 @@ import java.util.Map;
 import java.util.TreeMap;
 import loadData.DataLoad;
 import dataRanking.EdgeRank;
-
+/**
+ * 
+ * @author Arvin
+ *
+ */
 public class TestMain {
 
 	public static void main(String[] args) {
@@ -28,13 +32,12 @@ public class TestMain {
 			long start = System.currentTimeMillis( );
 			HashMap<String, String[]> CoauthorSet = new HashMap<String, String[]>();
 			HashMap<String, String[]> DomainSet = new HashMap<String, String[]>();
-			DataLoad dataLoad = new DataLoad();
 			
 			System.out.println("So...you are " + TheGuy);
 			System.out.println("The person you should and you could know is..");
 			// read the parser_result.csv to get the co-author map about TheGuy 
-			CoauthorSet = dataLoad.loadCoauthor();
-			DomainSet = dataLoad.loadDomain();
+			CoauthorSet = DataLoad.loadCoauthor();
+			DomainSet = DataLoad.loadDomain();
 			String[] co_author = DataFind.findCoauthor(CoauthorSet,TheGuy);
 			String[] cc_author_cc = null;
 			String temp = null;

@@ -12,12 +12,12 @@ import java.util.HashMap;
  */
 public class DataLoad {
 	
-	private HashMap<String, String[]> coauthordataresult = new HashMap<String, String[]>();
-	private HashMap<String, String[]> domaindataresult = new HashMap<String, String[]>(); 
+	private static HashMap<String, String[]> coauthordataresult = new HashMap<String, String[]>();
+	private static HashMap<String, String[]> domaindataresult = new HashMap<String, String[]>(); 
 	public DataLoad(){
 		
 	}
-	public HashMap<String, String[]> loadCoauthor(){
+	static public HashMap<String, String[]> loadCoauthor(){
 		
 		try{
 		@SuppressWarnings("resource")
@@ -33,7 +33,7 @@ public class DataLoad {
 		}
 		return coauthordataresult; 
 	}	
-	public HashMap<String, String[]> loadDomain(){
+	static public HashMap<String, String[]> loadDomain(){
 		
 		try{
 		@SuppressWarnings("resource")
