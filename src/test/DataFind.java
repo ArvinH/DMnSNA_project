@@ -11,11 +11,11 @@ public class DataFind {
 	public DataFind(){
 		
 	}
-	public String[] findDomain(HashMap<String, String[]> domainResult, String personName){
+	static public String[] findDomain(HashMap<String, String[]> domainResult, String personName){
 		String domainArray[] = domainResult.get(personName);
 		return domainArray;
 	}
-	public String[] findCoauthor(HashMap<String, String[]> coauthorResult, String personName){
+	static public String[] findCoauthor(HashMap<String, String[]> coauthorResult, String personName){
 		String coauthorArray[] = coauthorResult.get(personName);
 		String temp[] = null;
 		String tempString = null;
@@ -28,7 +28,7 @@ public class DataFind {
 		}
 		return ResultArray;
 	}
-	public String[] findFriendship(HashMap<String, String[]> coauthorResult, String personName){
+	static public String[] findFriendship(HashMap<String, String[]> coauthorResult, String personName){
 		String coauthorArray[] = coauthorResult.get(personName);
 		return coauthorArray;
 	}

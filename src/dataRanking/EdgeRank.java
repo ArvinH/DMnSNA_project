@@ -34,9 +34,8 @@ public class EdgeRank {
 	 */
 	public double domainRanking(HashMap<String, String[]> domainResult, String A, String B){
 		//FindDomain findDomain = new FindDomain();
-		DataFind findDomain = new DataFind();
-		String[] A_domain = findDomain.findDomain(domainResult, A);
-		String[] B_domain = findDomain.findDomain(domainResult, B);
+		String[] A_domain = DataFind.findDomain(domainResult, A);
+		String[] B_domain = DataFind.findDomain(domainResult, B);
 		Map<String, Integer> commonDomain = new HashMap<String, Integer>();
 		int index_a, index_b;
 		for( index_a = 1; index_a < A_domain.length; index_a++){
@@ -82,9 +81,8 @@ public class EdgeRank {
 	 */
 	public double interRanking(HashMap<String, String[]> coauthorResult, String A, String B){
 			//FindCoauthor findC = new FindCoauthor();
-			DataFind findC = new DataFind();
-			String[] A_co = findC.findCoauthor(coauthorResult, A);
-			String[] B_co = findC.findCoauthor(coauthorResult, B);
+			String[] A_co = DataFind.findCoauthor(coauthorResult, A);
+			String[] B_co = DataFind.findCoauthor(coauthorResult, B);
 			// initial a linked list to get the set of A_co and B_co, should use Arrays.asList() to initial the LinkedList
 			// cauz' Array.asList() will return an fixed list which can't remove or add or something operation..
 			List<String> ListAco = new LinkedList<String>(Arrays.asList(A_co));
@@ -108,9 +106,8 @@ public class EdgeRank {
 	 * @return
 	 * weighting of person A and person B's friendship, according to their co-edit publications
 	 */
-	public double friendshipRanking(HashMap<String, String[]> coauthorResult, String A, String B){
-		DataFind findC = new DataFind();
-		String[] A_co = findC.findFriendship(coauthorResult, A);
+	public double friendshipRanking(HashMap<String, String[]> coauthorResult, String A, String B, HashMap<String, String[]> domainResult){
+		String[] A_co = DataFind.findFriendship(coauthorResult, A);
 		String[] temp = null;
 		for(int j = 0; j < A_co.length; j++){
 			if(A_co[j].contains(B)){
@@ -118,6 +115,8 @@ public class EdgeRank {
 				friendshipWeight = Double.parseDouble(temp[1]);
 			}
 		}
+		String[] C_Domain = DataFind.findDomain(domainResult, B);
+		friendshipWeight = friendshipWeight / C_Domain.length;
 		return friendshipWeight;
 	}
 	public double smallWorldExtend(List<String> A, List<String> B){
