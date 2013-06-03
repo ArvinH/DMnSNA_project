@@ -83,6 +83,7 @@ public class EdgeRank {
 			//FindCoauthor findC = new FindCoauthor();
 			String[] A_co = DataFind.findCoauthor(coauthorResult, A);
 			String[] B_co = DataFind.findCoauthor(coauthorResult, B);
+			int B_co_size = B_co.length;
 			// initial a linked list to get the set of A_co and B_co, should use Arrays.asList() to initial the LinkedList
 			// cauz' Array.asList() will return an fixed list which can't remove or add or something operation..
 			List<String> ListAco = new LinkedList<String>(Arrays.asList(A_co));
@@ -95,7 +96,7 @@ public class EdgeRank {
 				System.out.println(ListAco.get(i).toString());
 			}
 			*/
-			interWeight = ListAco.size();
+			interWeight = ListAco.size() / B_co_size;
 		return interWeight;
 	}
 	/**

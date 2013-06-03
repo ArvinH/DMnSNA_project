@@ -53,6 +53,7 @@ public class TestMain {
     		EdgeRank edgeRank = new EdgeRank();
     		double ac_weight = 0.0;
     		double bc_weight = 0.0;
+    		double bc_friendshipWeight = 0.0;
     		double ab_domainWeight = 0.0;
     		double temp_weight = 0.0;
     		TreeMap<Double, String> max_temp_weight = new TreeMap<Double, String>(); 
@@ -72,11 +73,12 @@ public class TestMain {
     			A_Co_Co.addAll(A_Temp_CoCo);
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.friendshipRanking(CoauthorSet,TheGuy, temp, DomainSet);
-    			
+    		
     			if (ac_weight > 0){
 	    			//System.out.println("temp:"+temp+"--ac_weight"+ac_weight);
 	    			for(int j = 1; j < cc_author_cc.length; j++){
 	    				bc_weight = edgeRank.interRanking(CoauthorSet, temp, cc_author_cc[j]);
+	    				bc_friendshipWeight = edgeRank.friendshipRanking(CoauthorSet, temp, cc_author_cc[j], DomainSet);
 	    				ab_domainWeight = edgeRank.domainRanking(DomainSet, TheGuy, cc_author_cc[j]);
 	    				// Algorithm
 	    				b_co = DataFind.findCoauthor(CoauthorSet, cc_author_cc[j]);
@@ -85,7 +87,7 @@ public class TestMain {
 	    	    		B_Co.remove(0);
 	    	    		double smallWorldExtend = edgeRank.smallWorldExtend(A_Co_Co, B_Co);
 	    				if(ab_domainWeight >= 1){
-		    				temp_weight = ac_weight*bc_weight*smallWorldExtend;
+		    				temp_weight = ac_weight * bc_friendshipWeight * smallWorldExtend;
 		    				// need to check if there is same cc_author and co_author
 		    			//	System.out.println("small: "+smallWorldExtend+", temp:"+temp_weight);
 		    				

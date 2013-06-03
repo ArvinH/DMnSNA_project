@@ -20,8 +20,7 @@ public class MasterFind {
 		
 	}
 	public ArrayList<String> find_baseNumOfCowork(){
-		DataLoad dataload = new DataLoad();
-		HashMap<String, String[]> coauthorSet = dataload.loadCoauthor();
+		HashMap<String, String[]> coauthorSet = DataLoad.loadCoauthor();
 		Collection<String> collection = coauthorSet.keySet();
 		Iterator<String> iter = collection.iterator();
 		while(iter.hasNext()){
@@ -35,14 +34,13 @@ public class MasterFind {
 	}
 	
 	public ArrayList<String> find_baseNumOfPublications(){
-		DataLoad dataload = new DataLoad();
-		HashMap<String, String[]> domainSet = dataload.loadDomain();
+		HashMap<String, String[]> domainSet = DataLoad.loadDomain();
 		Collection<String> collection = domainSet.keySet();
 		Iterator<String> iter = collection.iterator();
 		while(iter.hasNext()){
 			person = iter.next();
 			temp = domainSet.get(person);
-			if(temp.length >= 50){
+			if(temp.length >= 500){
 				Master.add(person);
 			}
 		}
