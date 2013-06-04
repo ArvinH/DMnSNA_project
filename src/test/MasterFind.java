@@ -26,7 +26,7 @@ public class MasterFind {
 		while(iter.hasNext()){
 			person = iter.next();
 			temp = coauthorSet.get(person);
-			if(temp.length >= 100){
+			if(temp.length >= 300){
 				Master.add(person);
 			}
 		}
@@ -40,7 +40,7 @@ public class MasterFind {
 		while(iter.hasNext()){
 			person = iter.next();
 			temp = domainSet.get(person);
-			if(temp.length >= 500){
+			if(temp.length >= 300){
 				Master.add(person);
 			}
 		}
@@ -48,7 +48,7 @@ public class MasterFind {
 	}	
 	public static void main(String[] args){
 		MasterFind masterfind = new MasterFind();
-		ArrayList<String> Master = masterfind.find_baseNumOfPublications();
+		ArrayList<String> Master = masterfind.find_baseNumOfCowork();
 		for(int i = 0; i < Master.size(); i++){
 			System.out.println(Master.get(i));
 		}

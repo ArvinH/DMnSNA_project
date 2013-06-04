@@ -110,7 +110,7 @@ public class EdgeRank {
 	public double friendshipRanking(HashMap<String, String[]> coauthorResult, String A, String B, HashMap<String, String[]> domainResult){
 		String[] A_co = DataFind.findFriendship(coauthorResult, A);
 		String[] temp = null;
-		for(int j = 0; j < A_co.length; j++){
+		for(int j = 1; j < A_co.length; j++){
 			if(A_co[j].contains(B)){
 				temp = A_co[j].split(":");
 				friendshipWeight = Double.parseDouble(temp[1]);
