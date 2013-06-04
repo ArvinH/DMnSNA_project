@@ -11,11 +11,9 @@ import java.util.*;
 public class Publication {
     private static Set<Publication> ps= new HashSet<Publication>(650000);
     private static int maxNumberOfAuthors = 0;
-    private String key;
     private Person[] authors;	// or editors
     private String domain;		// add publication domain
     public Publication(String key, Person[] persons, String publishDomain) {
-        this.key = key;
         authors = persons;
         domain = publishDomain;
         ps.add(this);

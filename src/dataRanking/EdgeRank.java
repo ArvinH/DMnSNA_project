@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import test.DataFind;
-import test.FindDomain;
 /**
  * 
  * @author Arvin
@@ -117,7 +116,7 @@ public class EdgeRank {
 			}
 		}
 		String[] C_Domain = DataFind.findDomain(domainResult, B);
-		friendshipWeight = friendshipWeight / C_Domain.length;
+		friendshipWeight = friendshipWeight / (C_Domain.length-1);
 		return friendshipWeight;
 	}
 	public double smallWorldExtend(List<String> A, List<String> B){

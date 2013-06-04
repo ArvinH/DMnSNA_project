@@ -1,5 +1,8 @@
 package test;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,7 +29,7 @@ public class MasterFind {
 		while(iter.hasNext()){
 			person = iter.next();
 			temp = coauthorSet.get(person);
-			if(temp.length >= 300){
+			if(temp.length >= 500){
 				Master.add(person);
 			}
 		}
@@ -49,8 +52,19 @@ public class MasterFind {
 	public static void main(String[] args){
 		MasterFind masterfind = new MasterFind();
 		ArrayList<String> Master = masterfind.find_baseNumOfCowork();
-		for(int i = 0; i < Master.size(); i++){
-			System.out.println(Master.get(i));
+		FileWriter fw;
+		try {
+			fw = new FileWriter("parserResult/master.csv");
+			PrintWriter pw = new PrintWriter(fw);
+			for(int i = 0; i < Master.size(); i++){
+				pw.println(Master.get(i));
+			}
+			pw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 	}
 }

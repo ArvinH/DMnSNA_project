@@ -233,7 +233,7 @@ public class Person {
     	PrintWriter pw = null;
     	Person key = null;
 		try {
-			fw = new FileWriter("parserResult/parser_result2.csv");
+			fw = new FileWriter("parserResult/coauthor_degree.csv");
 		 	pw = new PrintWriter(fw);
 	    	System.out.println("Person and their Coauthors");
 	    	//pw.println("Person and their Coauthors");
@@ -257,7 +257,8 @@ public class Person {
 	    		Iterator iter = collection.iterator();
 	    		while(iter.hasNext()){
 	    			key = (Person) iter.next();
-	    			pw.print((iter.hasNext())?key.name+":"+pers.coauthors.get(key)+":"+",":key.name+":"+pers.coauthors.get(key)+":");
+	    			//pw.print((iter.hasNext())?key.name+":"+pers.coauthors.get(key)+":"+",":key.name+":"+pers.coauthors.get(key)+":");
+	    			pw.print((iter.hasNext())?pers.coauthors.get(key)+",":pers.coauthors.get(key));
 	    		}
 	    		//System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 	    		pw.println();

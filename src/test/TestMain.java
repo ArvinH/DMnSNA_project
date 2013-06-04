@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import checking.Datacheck;
 import loadData.DataLoad;
 import dataRanking.EdgeRank;
 /**
@@ -23,7 +25,7 @@ public class TestMain {
 	public TestMain(){
 		
 	}
-	public void test(String TestName, double threadshold, String filename){
+	public void test(String TestName, String filename, boolean pruning){
 		try {
 			//BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
 			//System.out.println("Who are you? ");
@@ -40,6 +42,8 @@ public class TestMain {
 			// read the parser_result.csv to get the co-author map about TheGuy 
 			CoauthorSet = DataLoad.loadCoauthor();
 			DomainSet = DataLoad.loadDomain();
+			String[] TheGuyPublications = DataFind.findDomain(DomainSet, TheGuy);
+			double threshold = 0.0;
 			String[] co_author = DataFind.findCoauthor(CoauthorSet,TheGuy);
 			String[] cc_author_cc = null;
 			String temp = null;
@@ -54,6 +58,7 @@ public class TestMain {
     		Iterator<String> iter = collection.iterator();
     		EdgeRank edgeRank = new EdgeRank();
     		double ac_weight = 0.0;
+    		double ca_weight = 0.0;
     		//double bc_weight = 0.0;
     		double bc_friendshipWeight = 0.0;
     		double ab_domainWeight = 0.0;
@@ -75,8 +80,19 @@ public class TestMain {
     			A_Co_Co.addAll(A_Temp_CoCo);
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.friendshipRanking(CoauthorSet,TheGuy, temp, DomainSet);
-    		
-    			if (ac_weight > threadshold){
+    			ca_weight = edgeRank.friendshipRanking(CoauthorSet, temp, TheGuy, DomainSet);
+    			
+    			if(pruning){
+    				if(Datacheck.checking(TheGuy)){
+    				threshold = (double)1/(TheGuyPublications.length - 1);
+    				}
+    				else{
+    					threshold = 0.0;
+    				}
+    			}else{
+    				threshold = 0.0;
+    			}
+    			if (ca_weight > threshold){
 	    			//System.out.println("temp:"+temp+"--ac_weight"+ac_weight);
 	    			for(int j = 1; j < cc_author_cc.length; j++){
 	    				//bc_weight = edgeRank.interRanking(CoauthorSet, temp, cc_author_cc[j]);
