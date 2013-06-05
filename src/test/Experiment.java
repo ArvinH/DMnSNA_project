@@ -1,9 +1,5 @@
 package test;
-/**
- * 
- * @author Arvin
- *
- */
+
 public class Experiment {
 
 	/**
@@ -13,8 +9,8 @@ public class Experiment {
 		TestMain experimentTest = new TestMain();
 		
 		//for(double i = 0; i <=0.3; i+=0.3){
-		experimentTest.test("Rajeev Jain", "_Rajeev Jain"+"_cheked_pruning", true);
-		experimentTest.test("Rajeev Jain", "_Rajeev Jain"+"_cheked_new_", false);
+		experimentTest.test("Yeonseung Ryu", "_Yeonseung Ryu"+"_new_pruning", true);
+		experimentTest.test("Yeonseung Ryu", "_Yeonseung Ryu"+"_new_", false);
 		//}
 		
 		

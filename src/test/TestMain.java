@@ -81,7 +81,7 @@ public class TestMain {
     			// operate A->C weight and C->B weight
     			ac_weight = edgeRank.friendshipRanking(CoauthorSet,TheGuy, temp, DomainSet);
     			ca_weight = edgeRank.friendshipRanking(CoauthorSet, temp, TheGuy, DomainSet);
-    			
+    			/*
     			if(pruning){
     				if(Datacheck.checking(TheGuy)){
     				threshold = (double)1/(TheGuyPublications.length - 1);
@@ -91,7 +91,7 @@ public class TestMain {
     				}
     			}else{
     				threshold = 0.0;
-    			}
+    			}*/
     			if (ca_weight > threshold){
 	    			//System.out.println("temp:"+temp+"--ac_weight"+ac_weight);
 	    			for(int j = 1; j < cc_author_cc.length; j++){
